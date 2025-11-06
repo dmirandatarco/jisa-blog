@@ -1,0 +1,285 @@
+/* =========================================
+   Tailwind
+========================================= */
+@import "tailwindcss";
+
+/* =========================================
+   Tokens base
+========================================= */
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+/* =========================================
+   Lufga (public/fonts/*.woff2)
+   Asegúrate de que estos archivos existen:
+   /public/fonts/LufgaRegular.woff2, etc.
+========================================= */
+
+@font-face { font-family:'Lufga'; src:url('/fonts/LufgaRegular.woff2') format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
+@font-face { font-family:'Lufga'; src:url('/fonts/LufgaSemiBold.woff2') format('woff2'); font-weight:600; font-style:normal; font-display:swap; }
+
+/* @font-face { font-family: 'Lufga'; src: url('/fonts/LufgaThin.woff2') format('woff2'); font-weight: 100; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Lufga'; src: url('/fonts/LufgaThinItalic.woff2') format('woff2'); font-weight: 100; font-style: italic; font-display: swap; }
+
+@font-face { font-family: 'Lufga'; src: url('/fonts/LufgaExtraLight.woff2') format('woff2'); font-weight: 200; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Lufga'; src: url('/fonts/LufgaExtraLightItalic.woff2') format('woff2'); font-weight: 200; font-style: italic; font-display: swap; }
+
+@font-face { font-family: 'Lufga'; src: url('/fonts/LufgaLight.woff2') format('woff2'); font-weight: 300; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Lufga'; src: url('/fonts/LufgaLightItalic.woff2') format('woff2'); font-weight: 300; font-style: italic; font-display: swap; }
+
+@font-face { font-family: 'Lufga'; src: url('/fonts/LufgaRegular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Lufga'; src: url('/fonts/LufgaItalic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+
+@font-face { font-family: 'Lufga'; src: url('/fonts/LufgaMedium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Lufga'; src: url('/fonts/LufgaMediumItalic.woff2') format('woff2'); font-weight: 500; font-style: italic; font-display: swap; }
+
+@font-face { font-family: 'Lufga'; src: url('/fonts/LufgaSemiBold.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Lufga'; src: url('/fonts/LufgaSemiBoldItalic.woff2') format('woff2'); font-weight: 600; font-style: italic; font-display: swap; }
+
+@font-face { font-family: 'Lufga'; src: url('/fonts/LufgaBold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Lufga'; src: url('/fonts/LufgaBoldItalic.woff2') format('woff2'); font-weight: 700; font-style: italic; font-display: swap; }
+
+@font-face { font-family: 'Lufga'; src: url('/fonts/LufgaExtraBold.woff2') format('woff2'); font-weight: 800; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Lufga'; src: url('/fonts/LufgaExtraBoldItalic.woff2') format('woff2'); font-weight: 800; font-style: italic; font-display: swap; } */
+
+/* =========================================
+   Tailwind v4: asignar font-sans = Lufga
+========================================= */
+@layer base {
+  :root {
+    --font-sans: "Lufga", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+}
+
+/* =========================================
+   Theme (colores y otros tokens)
+   ⚠️ No redefinas --font-sans aquí.
+========================================= */
+@theme {
+  --color-JisaGris:         #3B5259;
+  --color-JisaGrisTextGray: #99A5A9;
+  --color-JisaCyan:         #1B9C9E;
+  --color-JisaVerde:        #BDD06B;
+  --color-JisaAmarillo:     #EECC4E;
+  --color-JisaNaranja:      #D18D2A;
+
+  --font-lufga: "Lufga", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Roboto", sans-serif;
+
+  --font-weight-regular: 400;
+
+  --line-clamp-7: 7;
+  --line-clamp-8: 8;
+  --line-clamp-9: 9;
+  --line-clamp-10: 10;
+}
+
+/* =========================================
+   Base
+========================================= */
+html, body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fff !important;
+  overflow-x: clip;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root { --background: #0a0a0a; --foreground: #ededed; }
+  html, body, #root, #__next {
+    background-color: #fff !important;
+    color: #111; /* para que el texto no quede gris claro */
+  }
+}
+
+.full-bleed {
+  position: relative;
+  width: 100dvw;          /* mejor que 100vw */
+  left: 50%;
+  right: 50%;
+  margin-left: -50dvw;
+  margin-right: -50dvw;
+}
+
+.cv-auto{
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1000px; /* reserva altura para evitar CLS */
+}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+.swiper-wrapper{ contain: layout paint size; }
+.swiper-slide{ contain: layout paint; will-change: transform; }
+
+.swiper, .swiper-slide { background: transparent !important; }
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* =========================================
+   SWIPER: flechas globales pequeñas, negras
+   (corrige azul y tamaño con variables)
+========================================= */
+:root { --swiper-theme-color: #111; }
+
+/* === SWIPER v12 – flechas pequeñas, delgadas, centradas === */
+
+/* el wrapper del carrusel debe ser relativo para que las flechas se posicionen dentro */
+.swiper,
+.swiper-container {
+  position: relative !important;
+}
+
+/* botón (círculo) */
+.swiper-button-prev,
+.swiper-button-next {
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;  /* centra verticalmente */
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 9999px !important;
+  background: #eee !important;
+  border: 1px solid rgba(0,0,0,.18) !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,.08) !important;
+  z-index: 20 !important;
+
+  /* neutraliza el icono nativo azul */
+  --swiper-navigation-color: transparent !important;
+}
+
+/* coloca a los lados */
+.swiper-button-prev { left: 10px !important; }
+.swiper-button-next { right: 10px !important; }
+
+/* quita el pseudo de Swiper */
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  content: none !important;
+}
+
+/* chevrons finos, centrados dentro del círculo */
+.swiper-button-prev::before,
+.swiper-button-next::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #111;   /* delgado */
+  border-bottom: 2px solid #111;
+  transform: translate(-50%, -50%) rotate(135deg); /* ← por defecto “<” */
+}
+
+/* cambia a “>” en el next */
+.swiper-button-next::before {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* hover sutil */
+.swiper-button-prev:hover,
+.swiper-button-next:hover { background: #f4f4f4 !important; }
+
+
+
+/* =========================================
+   Utilitarios que ya usabas
+========================================= */
+
+/* Phone field */
+.phone-field .react-international-phone-country-selector-button{
+  background: transparent !important; border: none !important; border-radius: 0 !important;
+  box-shadow: none !important; padding: 0 !important;
+}
+.phone-field .react-international-phone-input{
+  min-height: 0 !important; height: 100% !important; padding: 0 !important;
+  line-height: normal !important; padding-right: 12px !important;
+}
+.phone-field .react-international-phone-input-container{
+  border: 0 !important; box-shadow: none !important; background: transparent !important;
+}
+.phone-field .react-international-phone-flag-emoji{
+  width: 20px !important; height: 20px !important; line-height: 20px !important;
+}
+
+/* Wrapper tamaños */
+.phone-field-wrapper { display: flex; align-items: center; }
+.phone-underline { border-bottom: 2px solid var(--c-cyan, #1aa5a5); height: 42px; display: flex; align-items: center; }
+.phone-underline.is-error { border-color: #f87171; }
+
+/* Inputs carrito */
+.card-cart-pasajero input,
+.card-cart-pasajero select {
+  height: 40px; width: 100%; border: 1px solid #e5e7eb; border-radius: 6px; padding: 0 .75rem;
+  font-size: 14px; color: #374151; background: #fff; outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.card-cart-pasajero input:focus,
+.card-cart-pasajero select:focus { border-color: #00a4b4; box-shadow: 0 0 0 1px rgba(0,164,180,.3); }
+.card-cart-pasajero select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23838b93' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right .6rem center; background-size: 12px 12px; padding-right: 2rem;
+}
+.card-cart-pasajero input[type="date"] { padding-right: .75rem; }
+.card-cart-pasajero input[type="date"]::-webkit-calendar-picker-indicator { filter: opacity(.6); cursor: pointer; margin-right: -4px; }
+.card-cart-pasajero input[type="date"]::-webkit-inner-spin-button,
+.card-cart-pasajero input[type="date"]::-webkit-clear-button { display: none; }
+
+/* DayPicker */
+.rdp .rdp-day_range_start { background-color: #0f9690 !important; color: #fff !important; border-radius: .5rem; }
+.rdp .rdp-day_range_middle { background-color: rgba(15,150,144,.12) !important; color: #111827 !important; border-radius: .5rem; }
+.rdp .rdp-day_range_end,
+.rdp .rdp-day_range_end.rdp-day_selected,
+.rdp .rdp-day_selected.rdp-day_range_end {
+  background-color: rgba(15,150,144,.12) !important; color: #111827 !important; border-radius: .5rem;
+  border: none !important; outline: none !important; box-shadow: none !important;
+}
+.rdp .rdp-day:focus-visible { outline: none !important; box-shadow: none !important; }
+.rdp-root { --rdp-accent-color: #1B9C9E !important; --rdp-accent-background-color: #f0f0f0; }
+
+/* Lite YouTube y Swipers varios (si los usas) */
+.mySwiperVideo > .swiper-wrapper > .swiper-slide.swiper-slide-active { transform: scale(1.2); }
+.mySwiperVideo { padding: 50px 0 !important; }
+lite-youtube { border-radius: 5px; }
+.mySwiperTestimonio > .swiper-pagination { position: static; padding-top: 24px; display: flex; justify-content: center; }
+.mySwiperTestimonio > .swiper-pagination > .swiper-pagination-bullet { background: #448899; }
+.NuestroEquipoSwyper > .swiper-pagination > .swiper-pagination-bullet { background: #448899; }
+
+/* React Calendar */
+.react-calendar__tile--disabled { color: gray; background-color: #f3f4f6; }
+.react-calendar__tile { text-align: center; padding: 10px; }
+.react-calendar { width: 100% !important; background: white; border: none !important; font-family: Arial, Helvetica, sans-serif; line-height: 1.125em; }
+.react-calendar__month-view__weekdays__weekday { background: #D8DCDE; color: #3B5259; padding: 20px !important; }
+abbr:where([title]) { text-decoration: none; font-weight: bold; color: #3B5259; font-size: 16px; }
+button.react-calendar__tile.react-calendar__month-view__days__day.react-calendar__month-view__days__day--weekend > abbr {
+  position: absolute; top: 4px; left: 4px; font-size: 12px; font-weight: 600; color: #3B5259;
+}
+button.react-calendar__tile.react-calendar__month-view__days__day > abbr {
+  position: absolute; top: 4px; left: 4px; font-size: 12px; font-weight: 600;
+}
+button.react-calendar__tile.react-calendar__month-view__days__day.react-calendar__month-view__days__day--weekend > p {
+  position: absolute; bottom: 4px; right: 4px;
+}
+button.react-calendar__tile.react-calendar__month-view__days__day,
+button.react-calendar__tile.react-calendar__month-view__days__day.react-calendar__month-view__days__day--weekend {
+  position: relative; padding: 30px;
+}
+.react-calendar__tile:disabled { background-color: #F9FAFA !important; color: #ababab; }
+.react-calendar__tile--active { background: #D8DCDE !important; color: white; }
+.react-calendar__navigation { color: #3B5259; font-weight: 600; text-transform: uppercase !important; }
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button { display: none; }
+
+/* Mega menu */
+.mega-menu { opacity: 0; visibility: hidden; z-index: -900; left: 0; position: absolute; text-align: left; width: 100%; transition: all .15s linear 0s; }
+.hoverable { position: static; padding-left: 12px; }
+.hoverable:hover .mega-menu { opacity: 1; visibility: visible; z-index: 900; }
+.toggle-input { display: none; }
+.toggle-input:not(checked) ~ .mega-menu { opacity: 0; visibility: hidden; z-index: -900; }
+.toggle-input:checked ~ .mega-menu { opacity: 1; visibility: visible; z-index: 900; }
+.toggle-input:checked + label { color: white; background: rgb(3,102,114); }

@@ -1,0 +1,144 @@
+{
+  "header": {
+    "buscar-tour": "Search tour",
+    "tours": "Tours",
+    "contact": "Contact"
+  },
+  "paquetes_destacados": {
+    "title": "Featured packages",
+    "description": "Discover our most popular packages"
+  },
+  "tours_destacados": {
+    "title": "Featured tours",
+    "description": "Discover our most popular tours",
+    "desde": "from"
+  },
+  "destion_section": {
+    "destinos": "Destinations",
+    "tours_disponibles": "Available tours"
+  },
+  "contact_section": {
+    "title": "Contact us",
+    "description": "Ready to discover the beauty of Peru? Get in touch with us and let's make your dream trip a reality.",
+    "form": {
+      "code": "Code",
+      "telefono": "Phone",
+      "nombre": "Name",
+      "email": "Email",
+      "informacion_adicional": "Additional information",
+      "enviar": "Send",
+      "datos_personales": "Personal Information",
+      "tour_interesado": "Tour of interest",
+      "adultos": "Adults",
+      "niños": "Children"
+    }
+  },
+  "blog_section": {
+    "titulo": "We are your guide to Peru.",
+    "description": "At Jisa Adventure, we don't just take you to different destinations in Peru, we also make sure that every one of your questions is answered and we help you arrive with everything you need and need for your dream trip to Peru.",
+    "description2": "Follow our blog for tips, recommendations, and everything you need to know to plan your adventure to this magical destination.",
+    "ver_mas": "See more"
+  },
+  "trip_section": {
+    "titulo": "Reviews from Our Clients",
+    "subtitulo": "Discover the stories and testimonials of those who have traveled with Jisa Adventure and experienced unforgettable moments in the beautiful destinations of Peru.",
+    "la_evaluación_general_en": "The overall rating on",
+    "es": "es",
+    "en_base_a": "based on",
+    "reseñas": "reviews"
+  },
+  "home": {
+    "welcomeMessage": "Welcome to our site",
+    "description": "Explore the best destinations"
+  },
+  "tours": {
+    "tours_destacados_de": "Featured tours of",
+    "paquetes_contienen": "Packages that include",
+    "mas_destinos_en": "More destinations in",
+    "ver_mas_tours": "See more tours",
+    "tours_disponibles": "Available Tours",
+    "paquetes_disponibles": "Available Packages"
+  },
+  "tours_detail": {
+    "ver_carrito": "View Cart",
+    "agregado_exitoso": "Successfully added to cart",
+    "desde": "From",
+    "por_persona": "Per person",
+    "reservas_ahora": "Book now",
+    "asesor_online": "Online advisor",
+    "duracion": "Duration",
+    "max_grupo": "Maximum group size",
+    "tipo_tour": "Tour type",
+    "recojo": "Pick-up",
+    "descargar_brochure": "Download brochure",
+    "itinerario": "Itinerary",
+    "incluye": "Includes",
+    "no_incluye": "Does not include",
+    "que_llevar": "What to bring",
+    "qué_llevar_a_tu_viaje": "What to bring on your trip",
+    "individual": "Individual",
+    "grupal": "Group",
+    "privado": "Private",
+    "precios": "Prices",
+    "faqs": "FAQs",
+    "preguntas_antes_de_viajar": "Questions before you travel",
+    "hoteles_para_este_tour": "Hotels for this tour",
+    "alojamiento": "Accommodation",
+    "galeria": "Gallery",
+    "contactanos": "Contact us",
+    "fecha_visita": "Visit date",
+    "cantidad_pasajeros": "Number of passengers",
+    "dia": "Day",
+    "servicios_fuera_de_impuestos": "Services not subject to tax",
+    "añadir_carrito": "Add to cart",
+    "comunicate_asesor": "Contact an advisor",
+    "no_disponible": "This tour is subject to availability.",
+    "ayuda_disponibilidad": "We help you find dates."
+  },
+  "blogs": {
+    "nuestro_blog": "Our Blog",
+    "description": "Explore the best travel and cultural experiences with Jisa Adventure."
+  },
+  "blogs_detail": {
+    "disponibilidad_machupicchu": "Availability in Machu Picchu",
+    "blogs_relacionados": "Related blogs",
+    "las_noches_en_cusco": "Nights in Cusco"
+  },
+  "landing_detail": {
+    "destinos": "Destinations",
+    "hoteles": "Hotels",
+    "restaurant": "Restaurant",
+    "reservar": "Book",
+    "visita_virtual": "Virtual tour"
+  },
+  "nosotros": {
+    "sobre_nosotros": "About us",
+    "description": "Learn more about our history, values, and the team that makes each experience possible.",
+    "misión": "Mission",
+    "visión": "Vision",
+    "pasión_por_el_turismo": "Passion for tourism",
+    "sostenibilidad": "Sustainability",
+    "excelencia_en_el_servicio": "Service excellence",
+    "respeto_por_la_cultura": "Respect for culture",
+    "nuestro_equipo": "Our team",
+    "UNA_EMPRESA_DIFERENTE": "A different company",
+    "Certificados": "Certificates",
+    "Titulos_Certificados_y_Reconocimientos": "Titles, Certificates and Recognitions"
+  },
+  "footer": {
+    "text": "Meet our travel planning experts! At Jisa Adventure, we have a passionate team with in-depth knowledge of every destination in Peru.",
+    "terms": "Terms and Conditions",
+    "privacy": "Privacy Policy",
+    "inicio": "Home",
+    "destinos": "Destinations",
+    "tours": "Tours",
+    "paquetes_personalizados": "Custom Packages",
+    "nuestro_blog": "Our Blog",
+    "sobre_nosotros": "About Us",
+    "politicas_reserva": "Booking Policies",
+    "terminos_condiciones": "Terms and Conditions",
+    "faq": "Frequently Asked Questions",
+    "asesor_venta": "Sales Advisor",
+    "datos_informacion": "Information Details"
+  }
+}

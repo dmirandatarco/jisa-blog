@@ -1,0 +1,58 @@
+/* daypicker-overrides.css */
+
+/* Colores base de selección desactivados (no queremos el azul por defecto) */
+.rdp-day_selected,
+.rdp-day_selected:focus-visible,
+.rdp-day_selected:hover {
+  background-color: transparent !important;
+  color: inherit !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Inicio del rango: pastilla sólida */
+.is-start {
+  background-color: #1B9C9E !important; /* JisaCyan */
+  color: #fff !important;
+  border-radius: 8px !important;
+}
+
+/* Franja intermedia (incluye el día final) */
+.as-middle {
+  background-color: rgba(27, 156, 158, 0.12) !important; /* JisaCyan 12% */
+  color: #111827 !important; /* gris oscuro */
+  border-radius: 8px !important;
+}
+
+/* Hover sutil (opcional) */
+.rdp-day:hover:not(.rdp-day_disabled):not(.is-start):not(.as-middle) {
+  background-color: rgba(17, 24, 39, 0.06) !important;
+}
+
+/* Quita el “focus ring” azul */
+.rdp-day:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Encabezados y week numbers, deja tipografía limpia */
+.rdp-caption, .rdp-head_cell {
+  color: #3B5259 !important; /* JisaGris */
+  font-weight: 600;
+}
+
+/* Días deshabilitados (antes del mínimo) */
+.rdp-day_disabled {
+  opacity: 0.45 !important;
+  color: #9CA3AF !important; /* gris */
+  cursor: not-allowed !important;
+}
+
+/* Ajustes de spacing para que respire */
+.rdp {
+  --rdp-accent-color: #1B9C9E;
+  --rdp-background-color: transparent;
+  --rdp-outline: 0;
+  --rdp-outline-selected: 0;
+  padding: .25rem;
+}
