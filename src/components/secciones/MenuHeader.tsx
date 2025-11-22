@@ -153,6 +153,7 @@ export default function MenuHeader({ menu = [] }: MenuHeaderProps) {
       item?.url ||
       (item?.slug ? `/${item.slug}` : `/${(item?.nombre || "").toLowerCase().replace(/\s+/g, "-")}`);
 
+    
     const baseNombre = (item?.titulo || item?.nombre || "")
       .replace(/\b(tours?|tour)\b/gi, "")
       .replace(/\s{2,}/g, " ")
@@ -283,7 +284,7 @@ export default function MenuHeader({ menu = [] }: MenuHeaderProps) {
           const hasSub = Array.isArray(item?.toursOriginal) && item.toursOriginal.length > 0;
           const key =
             String(
-              item?.id ?? item?.slug ?? item?.url ?? item?.nombre ?? "item"
+              item?.nombre ?? "item"
             ) + `-${index}`;
 
           return (
@@ -299,74 +300,18 @@ export default function MenuHeader({ menu = [] }: MenuHeaderProps) {
                 }
               }}
             >
-              {hasSub ? (
-                // Título como Link + Chevron como botón (dos controles)
-                <div
-                  className={[
-                    "relative flex items-center gap-2 py-3 px-3",
-                    "text-sm lg:text-sm font-semibold text-white",
-                  ].join(" ")}
-                >
-                  {/* Título navega */}
-                  <Link
-                    href={normalizeHref(item?.url)}
-                    className={[
-                      "inline-flex items-center",
-                      "after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-[6px]",
-                      "after:h-[3px] after:bg-white after:rounded-full after:w-0",
-                      "group-hover:after:w-24 after:transition-all after:duration-300",
-                    ].join(" ")}
-                    onClick={closeOverlay}
-                  >
-                    {item?.h1 || item?.titulo || item?.nombre}
-                  </Link>
-
-                  {/* Chevron abre/cierra */}
-                  <button
-                    type="button"
-                    aria-label={`Abrir menú de ${item?.titulo}`}
-                    aria-haspopup="menu"
-                    aria-expanded={openIndex === index}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      const top = computeTopForIndex(index);
-                      setOverlayTop(top);
-                      setOpenIndex(openIndex === index ? null : index);
-                    }}
-                    onPointerDown={(e) => {
-                      e.preventDefault();
-                      const top = computeTopForIndex(index);
-                      setOverlayTop(top);
-                      setOpenIndex(index);
-                    }}
-                    className="shrink-0 p-1"
-                  >
-                    <ChevronDown
-                      className={`opacity-95 transition-transform ${
-                        openIndex === index ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
-                </div>
-              ) : (
-                // Sin submenú: solo Link
-                item?.url && (
-                  <Link
-                    href={normalizeHref(item.url)}
-                    className={[
-                      "relative block py-3 px-3 text-sm lg:text-sm font-semibold text-white hover:text-white",
-                      "after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-[6px]",
-                      "after:h-[3px] after:bg-white after:rounded-full after:w-0",
-                      "group-hover:after:w-24 after:transition-all after:duration-300",
-                    ].join(" ")}
-                    onClick={closeOverlay}
-                  >
-                    {item?.titulo}
-                  </Link>
-                )
-              )}
-
-              {renderOverlay(item, index)}
+              <Link
+                href={normalizeHref(item.slug)}
+                className={[
+                  "relative block py-3 px-3 text-sm lg:text-sm font-semibold text-white hover:text-white",
+                  "after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-[6px]",
+                  "after:h-[3px] after:bg-white after:rounded-full after:w-0",
+                  "group-hover:after:w-24 after:transition-all after:duration-300",
+                ].join(" ")}
+                onClick={closeOverlay}
+              >
+                {item?.nombre}
+              </Link>
             </li>
           );
         })}

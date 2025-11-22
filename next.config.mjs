@@ -27,27 +27,8 @@ const nextConfig = {
   typescript: { ignoreBuildErrors: true },
 
   async redirects() {
-    const oneOffs = [
-      ['/tours/tour-montana-de-colores', '/tours/tour-montana-7-colores'],
-      ['/trekking-machu-picchu ', '/peru-trekking'],
-    ];
-
     return [
-      // General: /paquetes/... -> /tours/...
-      {
-        source: '/paquetes/:slug*',
-        destination: '/tours/:slug*',
-        permanent: true, // 308 (equivalente a 301 para SEO)
-        // locale: false, // descomenta si usas i18n y no quieres prefijos
-      },
-
-      // Específicas
-      ...oneOffs.map(([from, to]) => ({
-        source: from,
-        destination: to,
-        permanent: true,
-        // locale: false, // descomenta si usas i18n
-      })),
+      
     ];
   },
 };

@@ -3,7 +3,7 @@ import { apiPost } from "@/lib/api";
 
 export const getHomeData = cache(async () => {
   const res = await apiPost<{ data: any }>(
-    "/general",
+    "/general-blog",
     { idiomaId: 1 },
     { cacheSeconds: 60, tags: ["home", "menu"] }
   ).then(r => r.data).catch(() => undefined);

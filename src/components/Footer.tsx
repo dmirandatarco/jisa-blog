@@ -44,108 +44,67 @@ export default function Footer() {
 
   return (
     <>
-      {/* Imagen decorativa superior del footer (pon tus archivos en /public/imagen/...) */}
-      <div className="w-full">
-        <Image
-          src="/imagen/Footer-Jisa-Adventure-Caminante.webp"
-          alt=""
-          width={1920}
-          height={200}
-          className="-mb-2 w-full h-auto"
-          priority={false}
-        />
-      </div>
+      
 
-      <footer className="bg-black w-full z-40 relative">
-        <div className="w-full max-w-7xl grid grid-cols-12 gap-4 mx-auto">
-          {/* Columna 1 */}
-          <div className="md:col-span-4 col-span-12 p-4 text-white flex flex-col px-8">
-            <Image
-              src="/imagen/LogoJisaSecundario.webp"
-              alt="Logo Jisa Adventure"
-              width={220}
-              height={128}
-              className="h-32 w-auto object-contain py-2 mx-auto md:mx-0"
-            />
-            <p className="text-sm p-4 pt-2 md:text-left text-center">
-              {t("footer.text")}
-            </p>
+      <footer className="w-full bg-[#15797A] text-white px-6 md:px-12 pt-16 pb-8">
+        <div className="max-w-[1200px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10">
 
-            <div className="text-white flex justify-center md:justify-start items-center gap-x-4">
+          <div>
+            <h4 className="uppercase text-[15px] font-semibold mb-3 tracking-wide">Asistencia</h4>
+            <ul className="list-disc ml-5 space-y-1.5 text-[14px] text-gray-200">
+              <li className="hover:text-white transition">Centro de Ayuda</li>
+              <li className="hover:text-white transition">AirCover</li>
+              <li className="hover:text-white transition">Antidiscriminación</li>
+              <li className="hover:text-white transition">Apoyo para discapacitados</li>
+              <li className="hover:text-white transition">Opciones de cancelación</li>
+              <li className="hover:text-white transition">Problemas en la zona</li>
+            </ul>
+          </div>
+
+          <hr className="block md:hidden border-t border-white/30 my-5" />
+
+          <div>
+            <h4 className="uppercase text-[15px] font-semibold mb-3 tracking-wide">Asistencia</h4>
+            <ul className="list-disc ml-5 space-y-1.5 text-[14px] text-gray-200">
+              <li className="hover:text-white transition">Centro de Ayuda</li>
+              <li className="hover:text-white transition">AirCover</li>
+              <li className="hover:text-white transition">Antidiscriminación</li>
+              <li className="hover:text-white transition">Apoyo para discapacitados</li>
+              <li className="hover:text-white transition">Opciones de cancelación</li>
+              <li className="hover:text-white transition">Problemas en la zona</li>
+            </ul>
+          </div>
+
+          <hr className="block md:hidden border-t border-white/30 my-5" />
+
+
+          <div>
+            <h4 className="uppercase text-[15px] font-semibold mb-3 tracking-wide">Asistencia</h4>
+            <ul className="list-disc ml-5 space-y-1.5 text-[14px] text-gray-200">
+              <li className="hover:text-white transition">Centro de Ayuda</li>
+              <li className="hover:text-white transition">AirCover</li>
+              <li className="hover:text-white transition">Antidiscriminación</li>
+              <li className="hover:text-white transition">Apoyo para discapacitados</li>
+              <li className="hover:text-white transition">Opciones de cancelación</li>
+              <li className="hover:text-white transition">Problemas en la zona</li>
+            </ul>
+          </div>
+
+        </div>
+        <div className="max-w-[1400px] mx-auto border-t border-white/30 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-5">
+          <p className="text-[14px] text-gray-200">
+            Síguenos en nuestras redes sociales
+          </p>
+          <div className="flex justify-center md:justify-end gap-6 text-[22px]">
               <GoogleIcon size={40} />
               <TripAdvisorIcon size={40} />
               <InstagramIcon size={30} />
               <FacebookIcon size={30} />
               <TikTokIcon size={30} />
-            </div>
           </div>
-
-          {/* Columna 2 */}
-          <div className="md:col-span-4 col-span-12 p-4 text-white px-12">
-            <p className="font-bold text-xl text-center">Jisa Adventure</p>
-            <div className="ps-4 py-2">
-              <ul className="text-base font-normal text-center space-y-1">
-                <li>
-                  <Link href="/politicas-privacidad">
-                    {t("footer.politicas_reserva")}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/terminos-condiciones">
-                    {t("footer.terminos_condiciones")}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/tours-machu-picchu">Tours Machu Picchu</Link>
-                </li>
-                <li>
-                  <Link href="/tours-cusco">Tours Cusco</Link>
-                </li>
-                <li>
-                  <Link href="/tours/7-dias-magicos">7 Días Mágicos</Link>
-                </li>
-                <li>
-                  <Link href="/tours/5-dias-magicos">5 Días Mágicos</Link>
-                </li>
-                {/* <li>
-                  <Link href="/preguntas-frecuentes">{t("footer.faq")}</Link>
-                </li> */}
-              </ul>
-            </div>
-          </div>
-
-          {/* Columna 3 */}
-          <div className="md:col-span-4 col-span-12 p-4 text-white px-12">
-            <div className="flex flex-col gap-y-6">
-              <div className="flex flex-col gap-y-2">
-                <p className="font-semibold text-base">{t("footer.asesor_venta")}</p>
-                <IconText
-                  icon={EnvelopeIcon}
-                  text="info@jisaadventure.com"
-                  enlace="mailto:info@jisaadventure.com"
-                />
-                <IconText
-                  icon={PhoneIcon}
-                  text="+51 976 294 449"
-                  enlace="https://wa.me/51976294449"
-                />
-              </div>
-
-              <div className="flex flex-col gap-y-2">
-                <p className="font-semibold text-base">{t("footer.datos_informacion")}</p>
-                <IconText icon={MapDotIcon} text="Calle Garcilaso 265, Cusco, Perú" />
-                <IconText icon={ClockIcon} text="08:00 a.m. - 8:00 p.m." />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="w-full max-w-7xl text-center mx-auto py-3">
-          <span className="text-JisaCyan">
-            © {new Date().getFullYear()} Jisa Adventure – Todos los derechos reservados
-          </span>
         </div>
       </footer>
+      
     </>
   );
 }

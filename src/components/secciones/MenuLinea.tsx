@@ -37,8 +37,8 @@ export default function MenuLinea({ menuOpen, menu = [] }: Props) {
                       {item?.titulo}
                     </button>
                   ) : (
-                    <Link href={item?.url || "#"} className="w-full py-3 font-semibold block">
-                      {item?.titulo}
+                    <Link href={item?.slug || "#"} className="w-full py-3 font-semibold block">
+                      {item?.nombre}
                     </Link>
                   )}
 

@@ -18,6 +18,9 @@ import TestimoniosSection from "@/components/home/TestimoniosSection.client";
 import SearchBarMount from "@/components/search/SearchBarMount.client";
 import FaqSectionOneCols from "@/components/tours/FaqSectionOneCols";
 import TravelAgencySchema from "@/utils/TravelAgencySchema";
+import Formulario from "@/components/Formulario";
+import BlogHero from "@/components/blog/BlogHero";
+import BlogGrid from "@/components/blog/BlogGrid";
 
 const FALLBACK = {
   siteName: "Jisa Adventure",
@@ -35,6 +38,8 @@ export async function generateMetadata() {
   const canonical = inicio.canonical || FALLBACK.canonical;
   const ogImage = "/agencia-de-viaje-cusco-jisaadventure.webp";
   const keywords = inicio.keywords || "";
+
+  
 
   return {
     title,
@@ -63,65 +68,28 @@ export async function generateMetadata() {
 
 export default async function HomePage() {
   const dataGeneral = await getHomeData();
-  const slider = dataGeneral?.slider;
-  const jsonLd = dataGeneral?.inicio?.jsonLd;
+  const posts = dataGeneral.blogs;
+
 
   return (
     <>
-      <TravelAgencySchema />
-
       {/* HERO full-bleed (bordes a bordes) */}
       <section className="full-bleed">
-        <Hero id="hero" data={slider} />
-        <div className="pointer-events-auto absolute left-1/2 -translate-x-1/2 bottom-3 md:bottom-8 w-[min(92vw,900px)] px-4 z-[40]">
-          <SearchBarMount id="search" data={dataGeneral.tours} />
-        </div>
+        <BlogHero
+            title="BLOG DE VIAJERO CON JISA ADVENTURE"
+            subtitle="Historias, consejos y experiencias únicas para explorar Perú como un viajero auténtico."
+            imageUrl="/agencia-de-viaje-cusco-jisaadventure.webp"
+            altImageUrl="Machupicchu Jisa Adventure"
+          />
       </section>
 
       {/* Contenido bajo el pliegue (centrado + cv-auto para diferir layout/paint) */}
       
-      <section className="mx-auto max-w-6xl px-6 py-12 md:py-16">
-        <PackageSection id="packages" data={dataGeneral?.paquetes} tipo={1} />
-      </section>
+      
+      <BlogGrid posts={posts} />
 
-      <section className="mx-auto max-w-6xl px-6 py-12 md:py-16">
-        <DestinosSection id="destinos" data={dataGeneral?.destinos} />
-      </section>
-
-      <section className="mx-auto max-w-6xl px-6 py-12 md:py-16">
-        <PackageSection id="tours" data={dataGeneral?.toursPrincipales} tipo={0} />
-      </section>
-
-      {/* <section className="mx-auto max-w-6xl px-6 py-12 md:py-16 cv-auto">
-        <AboutSection id="about" data={dataGeneral?.nosotros} />
-      </section> */}
-
-      <section className="mx-auto max-w-6xl px-6 py-12 md:py-16">
-        <PromocionSection id="promociones" />
-      </section>
-
-      <section className="mx-auto max-w-6xl px-6 py-12 md:py-16 cv-auto">
-        <BlogSection id="blog" data={dataGeneral?.blogs} />
-      </section>
-
-      <div className="py-5">
-        <FaqSectionOneCols
-          faqs={dataGeneral.inicio?.faqs}
-        />
-      </div>
-
-      <section className="mx-auto max-w-6xl px-6 py-12 md:py-16 cv-auto">
-        <TestimoniosSection
-          id="testimonios"
-          data={dataGeneral?.tripadvisors}
-          google={dataGeneral?.googles}
-          totalTripadvisor={dataGeneral?.totalTripadvisor}
-          totalGoogle={dataGeneral?.totalGoogle}
-        />
-      </section>
-
-      <section className="mx-auto max-w-6xl px-6 py-12 md:py-16 cv-auto">
-        <MarcasSection id="marcas" />
+      <section className="">
+        <Formulario id="formulario" />
       </section>
     </>
   );
