@@ -105,3 +105,31 @@ lite-youtube { border-radius: 5px; }
 .mySwiperTestimonio > .swiper-pagination { position: static; padding-top: 24px; display: flex; justify-content: center; }
 .mySwiperTestimonio > .swiper-pagination > .swiper-pagination-bullet { background: #448899; }
 .NuestroEquipoSwyper > .swiper-pagination > .swiper-pagination-bullet { background: #448899; }
+
+.cms-content h2 {
+  font-weight: 600;
+  font-size: 1.35rem;  /* text-xl */
+  margin: 1rem 0 0.5rem;
+  color: #111827;      /* gray-900 */
+}
+
+.cms-content h3 {
+  font-weight: 600;
+  font-size: 1.05rem;  /* text-xl */
+  margin: 1rem 0 0.5rem;
+  color: #111827;      /* gray-900 */
+}
+
+.cms-content p {
+  margin: 0.75rem 0;
+}
+
+.cms-content ul {
+  list-style: disc;
+  padding-left: 1.5rem; /* pl-6 */
+  margin: 0.75rem 0;
+}
+
+.cms-content li {
+  margin: 0.25rem 0;
+}

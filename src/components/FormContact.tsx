@@ -35,9 +35,7 @@ export default function FormContact() {
   } = methods;
 
   const onSubmit = async (data: FormValues) => {
-    // Lógica real (API) aquí:
-    console.log("Datos enviados:", data);
-    // await fetch("/api/contact", { method: "POST", body: JSON.stringify(data) })
+    
   };
 
   return (

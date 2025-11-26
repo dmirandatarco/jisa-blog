@@ -13,7 +13,7 @@ export type BlogCardProps = {
   fecha: string;         // ej: "12/05/2025"
   user?: { nombre?: string };            // ej: "Sadith Collatupa"
   altImage: string;            // ej: "Sadith Collatupa"
-  categoriablog?: { nombre?: string };
+  categoriablog?: { nombre?: string, slug?: string };
 };
 
 export default function BlogCard({
@@ -28,6 +28,7 @@ export default function BlogCard({
   altImage,
 }: BlogCardProps) {
   const tag = categoriablog?.nombre;
+  const slugCategoria = categoriablog?.slug;
   const autor = user?.nombre;
   return (
     <article
@@ -57,16 +58,16 @@ export default function BlogCard({
       {/* Content */}
       <div className="relative z-10">
         <h3 className="text-[20px] font-semibold mb-2">{titulo}</h3>
-        <p className="text-sm mb-3 text-gray-100 line-clamp-2" dangerouslySetInnerHTML={{ __html: resumen }}></p>
+        <div className="text-sm mb-3 text-gray-100 line-clamp-2" dangerouslySetInnerHTML={{ __html: resumen }}></div>
         <Link
-          href={slug}
+          href={`/${slugCategoria}/${slug}`}
           className="inline-block bg-[#1B9C9E] text-white text-sm font-medium rounded px-8 py-2 hover:bg-teal-700 transition"
         >
           Leer más
         </Link>
         <div className="flex gap-4 text-xs text-gray-300 mt-4">
           <span>📅 {fecha}</span>
-          <span>👤 {autor}</span>
+          <Link href={'/sobre-sadith-collatupa'}>👤 {autor}</Link>
         </div>
       </div>
     </article>

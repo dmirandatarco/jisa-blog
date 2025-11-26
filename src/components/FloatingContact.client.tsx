@@ -87,7 +87,7 @@ export default function FloatingContact() {
         href={wppLink}
         target="_blank"
         rel="noopener noreferrer"
-        className="w-16 h-16 rounded-full bg-white text-gray-700 flex items-center justify-center shadow-md"
+        className="w-16 h-16 rounded-full bg-[#0DC152] text-gray-700 flex items-center justify-center shadow-md"
         id="btnWhatsapp"
         aria-label="Contactar por WhatsApp"
         data-gtm="whatsapp_floating_main"
@@ -102,7 +102,7 @@ export default function FloatingContact() {
             href="https://wa.me/51976294449"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-16 h-16 rounded-full bg-white text-gray-700 flex items-center justify-center shadow-md"
+            className="w-16 h-16 rounded-full bg-[#0DC152] text-gray-700 flex items-center justify-center shadow-md"
             aria-label="WhatsApp directo"
             data-gtm="whatsapp_floating_direct"
             onClick={onClickWhatsappDirect}

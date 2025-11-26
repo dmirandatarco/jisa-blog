@@ -1,8 +1,9 @@
 import Image from "next/image";
 import BlogCard, { BlogCardProps } from "@/components/blog/BlogCard";
+import { SiInstagram, SiFacebook, SiTiktok, SiLinkedin } from "react-icons/si";
 
 type BlogPostItem = Omit<BlogCardProps, "variant">;
-type Socials = { instagram?: string; facebook?: string; tiktok?: string; email?: string };
+type Socials = { instagram?: string; facebook?: string; tiktok?: string; linkedin?: string };
 type Article = { title: string; updatedAt: string; href?: string };
 
 export default function AuthorProfile({
@@ -43,20 +44,6 @@ export default function AuthorProfile({
           "🧭 Especializada en Cusco, Machu Picchu, Ica y Arequipa.",
         ];
 
-  const ARTICLES =
-    articles.length
-      ? articles
-      : [
-          { title: "MONTAÑA 7 COLORES: GUÍA DE VIAJES 2025", updatedAt: "28 Oct. 2025" },
-          { title: "LA LAGUNA HUMANTAY: GUÍA DE VIAJE", updatedAt: "28 Oct. 2025" },
-          { title: "LAS RUTAS DE MACHU PICCHU 2025", updatedAt: "28 Oct. 2025" },
-          { title: "VALLE SAGRADO: GUÍA COMPLETA", updatedAt: "28 Oct. 2025" },
-          { title: "QUÉ LLEVAR AL CAMINO INCA", updatedAt: "28 Oct. 2025" },
-          { title: "MEJOR ÉPOCA PARA IR A CUSCO", updatedAt: "28 Oct. 2025" },
-          { title: "MIRADORES DE LIMA IMPERDIBLES", updatedAt: "28 Oct. 2025" },
-          { title: "AREQUIPA EN 2 DÍAS", updatedAt: "28 Oct. 2025" },
-        ];
-
   return (
     <div className="bg-white text-[#181A1A] leading-relaxed">
       {/* BLOQUE 1: PERFIL */}
@@ -73,16 +60,63 @@ export default function AuthorProfile({
             </p>
             <p className="text-sm text-gray-800 mb-4">
               {name.split(" ")[0]} forma parte del equipo de Jisa Adventures.{" "}
-              <a href="#" className="text-[#1B9C9E] hover:text-[#00796b] font-medium">
-                Conoce más sobre Jisa Adventures →
+              <a href="https://jisaadventure.com/" className="text-[#1B9C9E] hover:text-[#00796b] font-medium">
+                Conoce más sobre Jisa Adventure →
               </a>
             </p>
 
-            <div className="flex gap-6 text-2xl mt-4">
-              {socials.instagram && <a href={socials.instagram} aria-label="Instagram" className="hover:text-[#1B9C9E]">📸</a>}
-              {socials.facebook && <a href={socials.facebook} aria-label="Facebook" className="hover:text-[#1B9C9E]">👍</a>}
-              {socials.tiktok && <a href={socials.tiktok} aria-label="TikTok" className="hover:text-[#1B9C9E]">🎵</a>}
-              {socials.email && <a href={`mailto:${socials.email}`} aria-label="Email" className="hover:text-[#1B9C9E]">✉️</a>}
+            <div className="flex gap-6 mt-4 text-[#181A1A]">
+              {socials.instagram && (
+                <a
+                  href={socials.instagram}
+                  aria-label="Instagram"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#1B9C9E] transition"
+                  title="Instagram"
+                >
+                  <SiInstagram size={24} />
+                </a>
+              )}
+
+              {socials.facebook && (
+                <a
+                  href={socials.facebook}
+                  aria-label="Facebook"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#1B9C9E] transition"
+                  title="Facebook"
+                >
+                  <SiFacebook size={24} />
+                </a>
+              )}
+
+              {socials.tiktok && (
+                <a
+                  href={socials.tiktok}
+                  aria-label="TikTok"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#1B9C9E] transition"
+                  title="TikTok"
+                >
+                  <SiTiktok size={24} />
+                </a>
+              )}
+
+              {socials.linkedin && (
+                <a
+                  href={socials.linkedin}
+                  aria-label="LinkedIn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#1B9C9E] transition"
+                  title="LinkedIn"
+                >
+                  <SiLinkedin size={24} />
+                </a>
+              )}
             </div>
           </div>
 
@@ -134,16 +168,7 @@ export default function AuthorProfile({
                 </div>
                 ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
-                    {ARTICLES.map((a, i) => (
-                    <a
-                        key={i}
-                        href={a.href ?? "#"}
-                        className="rounded-xl border border-gray-200 hover:border-[#1B9C9E] hover:shadow-md transition p-5 block"
-                    >
-                        <h3 className="text-base font-bold text-[#181A1A] mb-1 line-clamp-2">{a.title}</h3>
-                        <small className="text-sm text-gray-600">Actualizado en: {a.updatedAt}</small>
-                    </a>
-                    ))}
+                    
                 </div>
                 )}
             </div>

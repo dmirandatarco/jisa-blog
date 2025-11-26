@@ -86,7 +86,7 @@ export default async function HomePage() {
       {/* Contenido bajo el pliegue (centrado + cv-auto para diferir layout/paint) */}
       
       
-      <BlogGrid posts={posts} />
+      <BlogGrid posts={posts} filtro="1" categorias={dataGeneral.categoriaBlogs}/>
 
       <section className="">
         <Formulario id="formulario" />
