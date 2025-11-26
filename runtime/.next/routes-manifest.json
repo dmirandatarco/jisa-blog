@@ -1,0 +1,138 @@
+{
+  "version": 3,
+  "pages404": true,
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    },
+    {
+      "source": "/paquetes/:slug*",
+      "destination": "/tours/:slug*",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/paquetes(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?(?:/)?$"
+    },
+    {
+      "source": "/tours/tour-montana-de-colores",
+      "destination": "/tours/tour-montana-7-colores",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/tours/tour-montana-de-colores(?:/)?$"
+    },
+    {
+      "source": "/trekking-machu-picchu ",
+      "destination": "/peru-trekking",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/trekking-machu-picchu (?:/)?$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/blogs/[slug]",
+      "regex": "^/blogs/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/blogs/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/tours/[slug]",
+      "regex": "^/tours/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/tours/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/[ubicacion]",
+      "regex": "^/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPubicacion": "nxtPubicacion"
+      },
+      "namedRegex": "^/(?<nxtPubicacion>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/blogs",
+      "regex": "^/blogs(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/blogs(?:/)?$"
+    },
+    {
+      "page": "/carrito",
+      "regex": "^/carrito(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/carrito(?:/)?$"
+    },
+    {
+      "page": "/gracias",
+      "regex": "^/gracias(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/gracias(?:/)?$"
+    },
+    {
+      "page": "/politicas-privacidad",
+      "regex": "^/politicas\\-privacidad(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/politicas\\-privacidad(?:/)?$"
+    },
+    {
+      "page": "/reserva-confirmada",
+      "regex": "^/reserva\\-confirmada(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/reserva\\-confirmada(?:/)?$"
+    },
+    {
+      "page": "/terminos-condiciones",
+      "regex": "^/terminos\\-condiciones(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/terminos\\-condiciones(?:/)?$"
+    },
+    {
+      "page": "/tours",
+      "regex": "^/tours(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/tours(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSuffix": ".prefetch.rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments"
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}
