@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import ToursCard from "./tourscard";
 import Image from "next/image";
 import Link from "next/link";
@@ -27,8 +27,8 @@ type Seccion = {
   id?: string | number;
   titulo: string;
   data: string;
-  tipo: string;
-  etiqueta: string;
+  tipo: string;       // "texto" | "tours" | "galeria" ...
+  etiqueta: string;   // puedes dejarlo, pero ya no lo usamos para la TOC
   tours: TourCard[];
   detalles: Detalles[];
 };
@@ -78,62 +78,56 @@ export default function Contenido({
   secciones = [],
   relacionados = [],
 }: BlogContentProps) {
-  // 1) Estado inicial: mismas secciones, sin tocar el HTML y sin headings
-  const [processedSections, setProcessedSections] = useState<ProcessedSection[]>(
-    () =>
-      (secciones ?? []).map((s) => ({
-        ...s,
-        dataWithIds: s.data,
-        headings: [],
-      }))
-  );
+  // Preprocesar secciones: extraer headings y agregar ids al HTML
+  const processedSections: ProcessedSection[] = useMemo(() => {
+    if (typeof window === "undefined") return [];
 
-  // 2) Recalcular en cliente (después de montar)
-  useEffect(() => {
-    const next: ProcessedSection[] = (secciones ?? []).map(
-      (section, sectionIndex) => {
-        if (section.tipo !== "texto" || !section.data) {
-          return {
-            ...section,
-            dataWithIds: section.data ?? "",
-            headings: [],
-          };
-        }
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(section.data, "text/html");
-        const nodes = doc.body.querySelectorAll("h2, h3, h4");
-
-        const headings: Heading[] = [];
-
-        nodes.forEach((node, headingIndex) => {
-          const el = node as HTMLElement;
-          const level = el.tagName.toLowerCase() as "h2" | "h3" | "h4";
-          const text = el.textContent?.trim() || "";
-          if (!text) return;
-
-          let id = el.id;
-          if (!id) {
-            id = `${slugify(text)}-${sectionIndex}-${headingIndex}`;
-            el.id = id;
-          }
-
-          headings.push({ id, titulo: text, level });
-        });
-
+    return (secciones ?? []).map((section, sectionIndex) => {
+      // solo nos interesa parsear HTML cuando tipo === "texto"
+      if (section.tipo !== "texto" || !section.data) {
         return {
           ...section,
-          dataWithIds: doc.body.innerHTML,
-          headings,
+          dataWithIds: section.data || "",
+          headings: [],
         };
       }
-    );
 
-    setProcessedSections(next);
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(section.data, "text/html");
+      const nodes = doc.body.querySelectorAll("h2, h3, h4");
+
+      const headings: Heading[] = [];
+
+      nodes.forEach((node, headingIndex) => {
+        const el = node as HTMLElement;
+        const level = el.tagName.toLowerCase() as "h2" | "h3" | "h4";
+        const text = el.textContent?.trim() || "";
+        if (!text) return;
+
+        // si ya tiene id, lo respetamos; si no, lo generamos
+        let id = el.id;
+        if (!id) {
+          id = `${slugify(text)}-${sectionIndex}-${headingIndex}`;
+          el.id = id;
+        }
+
+        headings.push({
+          id,
+          titulo: text,
+          level,
+        });
+      });
+
+      return {
+        ...section,
+        dataWithIds: doc.body.innerHTML, // HTML ya con ids en los headings
+        headings,
+      };
+    });
   }, [secciones]);
 
-  // 3) Tabla de contenidos: a partir del estado ya procesado
-  const allHeadings = useMemo(
+  // aplanar todos los headings para la tabla de contenidos
+  const allHeadings: Heading[] = useMemo(
     () => processedSections.flatMap((s) => s.headings),
     [processedSections]
   );
@@ -169,7 +163,7 @@ export default function Contenido({
 
         {/* SECCIONES */}
         {processedSections.map((section) => (
-          <article
+          <section
             key={String(section.id)}
             id={String(section.id)}
             className="mb-12 scroll-mt-20"
@@ -177,22 +171,27 @@ export default function Contenido({
             {section.tipo === "texto" && (
               <div
                 className="cms-content text-gray-700 leading-relaxed mb-4 last:mb-0"
-                // ahora usamos el HTML ya con ids en los h2/h3/h4
+                // 👇 aquí usamos el HTML ya modificado con ids en los <h2>/<h3>/<h4>
                 dangerouslySetInnerHTML={{ __html: section.dataWithIds }}
               />
             )}
 
             {section.tipo === "tours" && (
               <>
-                <span className="text-2xl font-semibold text-gray-900 mb-4">
-                  Tours Recomendados
-                </span>
+                 <aside
+                    aria-label="Tours recomendados relacionados con este artículo"
+                    className="mt-8 border-t pt-6"
+                  >
+                    <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+                      {section.titulo || "Tours recomendados"}
+                    </h2>
 
-                <div className="grid md:grid-cols-3 gap-8 mt-8">
-                  {(section.tours ?? []).map((tour, idx) => (
-                    <ToursCard key={idx} {...tour} />
-                  ))}
-                </div>
+                    <div className="grid md:grid-cols-3 gap-8 mt-4">
+                      {(section.tours ?? []).map((tour, idx) => (
+                        <ToursCard key={idx} {...tour} />
+                      ))}
+                    </div>
+                  </aside>
               </>
             )}
 
@@ -227,12 +226,15 @@ export default function Contenido({
                 </>
               );
             })()}
-          </article>
+          </section>
         ))}
 
         <p className="text-center italic text-gray-600 mt-10 mb-16">
           Por{" "}
-          <Link href="/sobre-sadith-collatupa" className="font-semibold">
+          <Link
+            href="/sobre-sadith-collatupa"
+            className="font-semibold"
+          >
             Sadith Collatupa
           </Link>
           <br />

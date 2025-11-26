@@ -75,24 +75,34 @@ export default async function HomePage({ params }: PageProps) {
 
   return (
     <>
-        <section className="full-bleed md:mt-25">
-            <Hero title={post.titulo} fecha={post.fecha} imageUrl={post.imagen} altImageUrl={post.altImage} />
-        </section>
-
-        <div className="w-full overflow-hidden mb-12 bg-[#F3F3F3] rounded-xl">
-            <img src={post.imagen} alt={post.altImage} className="w-full h-[480px] object-cover hover:scale-105 transition-transform duration-500" />
-        </div>
-
-        <section className="full-bleed">
-            <Contenido  
-                title={post.titulo}
-                fecha={post.fecha}
-                resumen={post.resumen}
-                secciones={post.secciones}
-                relacionados={post.blogsrelacionados}
-
+        <article className="md:mt-25">
+          <section className="full-bleed">
+            <Hero
+              title={post.titulo}
+              fecha={post.fecha}
+              imageUrl={post.imagen}
+              altImageUrl={post.altImage}
             />
-        </section>
+          </section>
+
+          <figure className="w-full overflow-hidden mb-12 bg-[#F3F3F3] rounded-xl">
+            <img
+              src={post.imagen}
+              alt={post.altImage}
+              className="w-full h-[480px] object-cover hover:scale-105 transition-transform duration-500"
+            />
+          </figure>
+
+          <section className="full-bleed">
+            <Contenido
+              title={post.titulo}
+              fecha={post.fecha}
+              resumen={post.resumen}
+              secciones={post.secciones}
+              relacionados={post.blogsrelacionados}
+            />
+          </section>
+        </article>
         <section className="">
             <Formulario id="formulario" />
         </section>
