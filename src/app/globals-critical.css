@@ -108,7 +108,7 @@ lite-youtube { border-radius: 5px; }
 
 .cms-content h2 {
   font-weight: 600;
-  font-size: 1.35rem;  /* text-xl */
+  font-size: 1.45rem;  /* text-xl */
   margin: 1rem 0 0.5rem;
   color: #111827;      /* gray-900 */
 }
@@ -116,6 +116,13 @@ lite-youtube { border-radius: 5px; }
 .cms-content h3 {
   font-weight: 600;
   font-size: 1.05rem;  /* text-xl */
+  margin: 1rem 0 0.5rem;
+  color: #111827;      /* gray-900 */
+}
+
+.cms-content h3 {
+  font-weight: 600;
+  font-size: 0.95rem;  /* text-xl */
   margin: 1rem 0 0.5rem;
   color: #111827;      /* gray-900 */
 }

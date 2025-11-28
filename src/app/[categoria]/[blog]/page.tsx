@@ -8,6 +8,7 @@ import Hero from "@/components/internas/hero";
 import Contenido from "@/components/internas/contenido";
 import RelatedPosts from "@/components/internas/RelatedPosts";
 import InstagramReel from "@/components/internas/InstagramReel";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 
 type PageProps = { params: { categoria: string; blog: string } };
 
@@ -73,10 +74,35 @@ export default async function HomePage({ params }: PageProps) {
 
     const post = dataGeneral.blog;
 
+    const items = [
+      { href: "/", label: "Inicio" },
+      { href: `/${categoria}`, label: categoria },
+      { label: post?.titulo ?? blog, current: true },
+    ];
+
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_BASE || "https://blog.jisaadventure.com";
+
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Inicio", item: `${baseUrl}/` },
+        { "@type": "ListItem", position: 2, name: categoria, item: `${baseUrl}/${categoria}` },
+        { "@type": "ListItem", position: 3, name: post?.titulo ?? blog, item: `${baseUrl}/${categoria}/${blog}` },
+      ],
+    };
+
   return (
     <>
-        <article className="md:mt-25">
+        <article className="md:mt-35">
           <section className="full-bleed">
+            <section className="w-full max-w-7xl mx-auto mt-10 mb-3 px-4 sm:px-6 lg:px-8">
+              <Breadcrumbs items={items}  />
+                <script
+                  type="application/ld+json"
+                  dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+              />
+            </section>
             <Hero
               title={post.titulo}
               fecha={post.fecha}

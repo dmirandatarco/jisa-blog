@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { Fragment } from "react";
+import { usePathname } from "next/navigation";
 import BlogCard, { BlogCardProps } from "./BlogCard";
 
 type Item = Omit<BlogCardProps, "variant">;
-
 type Categoria = { id?: number | string; slug?: string; nombre: string };
 
 const COLS = {
@@ -15,7 +16,26 @@ const COLS = {
 
 const CARD_VARIANT = { xl: "lg", md: "lg", sm: "sm" } as const;
 
-export default function BlogGrid({ posts, filtro, categorias = [] }: { posts: Item[]; filtro: string; categorias : Categoria[] }) {
+export default function BlogGrid({
+  posts,
+  filtro,
+  categorias = [],
+}: {
+  posts: Item[];
+  filtro: string;
+  categorias: Categoria[];
+}) {
+  const pathname = usePathname() || "/";
+
+  // helpers de clase
+  const baseBtn = "rounded-full font-semibold transition";
+  const activeBtn = "bg-teal-700 text-white hover:bg-teal-800";
+  const inactiveBtn = "bg-gray-300 text-[#1B9C9E] hover:bg-teal-700 hover:text-white";
+
+  const isRecientes = pathname === "/" || pathname === "/blog"; // ajusta si tu lista vive en /blog
+  const isCatActive = (slug?: string) =>
+    !!slug && (pathname === `/${slug}` || pathname.startsWith(`/${slug}/`));
+
   type Slot = "xl" | "md" | "sm";
   const ROW_PATTERN: Slot[][] = [["xl"], ["sm", "md"], ["md", "sm"]];
 
@@ -26,12 +46,10 @@ export default function BlogGrid({ posts, filtro, categorias = [] }: { posts: It
   while (i < posts.length) {
     const slots = ROW_PATTERN[rowIndex % ROW_PATTERN.length];
     const current: Array<{ slot: Slot; data: Item }> = [];
-
     for (const slot of slots) {
       if (i >= posts.length) break;
       current.push({ slot, data: posts[i++] });
     }
-
     rows.push(current);
     rowIndex++;
   }
@@ -42,45 +60,58 @@ export default function BlogGrid({ posts, filtro, categorias = [] }: { posts: It
 
         {filtro === "1" && (
           <>
+            {/* Sidebar desktop */}
             <aside className="hidden md:block w-1/4 bg-white rounded-xl shadow-md p-5 h-fit sticky top-5">
               <h2 className="text-lg font-semibold mb-5 text-[#D9D9D9]">Filtros</h2>
               <div className="flex flex-col gap-3">
                 <Link
-                  href={`/`}
-                  className="bg-teal-700 text-left text-white rounded-full px-5 py-2 font-semibold transition hover:bg-teal-800"
+                  href="/"
+                  className={`${baseBtn} px-5 py-2 text-left ${
+                    isRecientes ? activeBtn : inactiveBtn
+                  }`}
                 >
                   Recientes
                 </Link>
-                {(categorias ?? []).map((cat) => (
-                  <Link
-                    key={cat.id ?? cat.slug ?? cat.nombre}
-                    href={`/${cat.slug ?? ""}`}
-                    className="bg-gray-300 text-left text-[#1B9C9E] rounded-full px-5 py-2 font-semibold transition hover:bg-teal-700 hover:text-white"
-                  >
-                    {cat.nombre}
-                  </Link>
-                ))}
+
+                {(categorias ?? []).map((cat) => {
+                  const active = isCatActive(cat.slug);
+                  return (
+                    <Link
+                      key={cat.id ?? cat.slug ?? cat.nombre}
+                      href={`/${cat.slug ?? ""}`}
+                      className={`${baseBtn} px-5 py-2 text-left ${active ? activeBtn : inactiveBtn}`}
+                    >
+                      {cat.nombre}
+                    </Link>
+                  );
+                })}
               </div>
             </aside>
 
+            {/* Filtros móviles */}
             <div className="md:hidden w-full mb-6">
               <div className="flex gap-2 overflow-x-auto no-scrollbar py-1">
                 <Link
-                  href={`/`}
-                  className="shrink-0 bg-teal-700 text-white rounded-full px-4 py-2 text-sm font-semibold transition hover:bg-teal-800"
+                  href="/"
+                  className={`shrink-0 ${baseBtn} px-4 py-2 text-sm ${
+                    isRecientes ? activeBtn : inactiveBtn
+                  }`}
                 >
                   Recientes
                 </Link>
 
-                {(categorias ?? []).map((cat) => (
-                  <Link
-                    key={cat.id ?? cat.slug ?? cat.nombre}
-                    href={`/${cat.slug ?? ""}`}
-                    className="shrink-0 bg-gray-300 text-[#1B9C9E] rounded-full px-4 py-2 text-sm font-semibold transition hover:bg-teal-700 hover:text-white"
-                  >
-                    {cat.nombre}
-                  </Link>
-                ))}
+                {(categorias ?? []).map((cat) => {
+                  const active = isCatActive(cat.slug);
+                  return (
+                    <Link
+                      key={cat.id ?? cat.slug ?? cat.nombre}
+                      href={`/${cat.slug ?? ""}`}
+                      className={`shrink-0 ${baseBtn} px-4 py-2 text-sm ${active ? activeBtn : inactiveBtn}`}
+                    >
+                      {cat.nombre}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           </>

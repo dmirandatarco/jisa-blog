@@ -149,14 +149,38 @@ export default function Contenido({
               Tabla de contenidos
             </h2>
             <ul className="bg-emerald-50 py-8 px-10 rounded-lg mb-12">
-              {allHeadings.map((item) => (
-                <li
-                  key={item.id}
-                  className="mb-2 last:mb-0 text-[16px] hover:text-emerald-700 transition"
-                >
-                  <a href={`#${item.id}`}>{item.titulo}</a>
-                </li>
-              ))}
+              {allHeadings.map((item) => {
+                const indent =
+                  item.level === "h2" ? "pl-0" :
+                  item.level === "h3" ? "pl-8" :
+                  /* h4 */             "pl-16";
+
+                const bullet =
+                  item.level === "h2" ? "before:w-1.5 before:h-1.5" :
+                  item.level === "h3" ? "before:w-1.5 before:h-1.5" :
+                  /* h4 */             "before:w-1 before:h-1";
+
+                const textSize =
+                  item.level === "h2" ? "text-[16px]" :
+                  item.level === "h3" ? "text-[15px]" :
+                  /* h4 */             "text-[14px]";
+
+                return (
+                  <li
+                    key={item.id}
+                    className={[
+                      "mb-2 last:mb-0 hover:text-emerald-700 transition",
+                      indent,
+                      textSize,
+                      bullet,
+                    ].join(" ")}
+                  >
+                    <a href={`#${item.id}`} className="inline-block">
+                      {item.titulo}
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           </>
         )}
@@ -182,9 +206,9 @@ export default function Contenido({
                     aria-label="Tours recomendados relacionados con este artículo"
                     className="mt-8 border-t pt-6"
                   >
-                    <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                      {section.titulo || "Tours recomendados"}
-                    </h2>
+                    <span className="text-2xl font-semibold text-gray-900 mb-4">
+                      Tours que te puedan interesar
+                    </span>
 
                     <div className="grid md:grid-cols-3 gap-8 mt-4">
                       {(section.tours ?? []).map((tour, idx) => (

@@ -4,6 +4,7 @@ import Formulario from "@/components/Formulario";
 import BlogHero from "@/components/blog/BlogHero";
 import BlogGrid from "@/components/blog/BlogGrid";
 import { apiPost } from "@/lib/api";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 
 type PageProps = { params: { categoria: string } };
 
@@ -68,6 +69,22 @@ export default async function HomePage({ params }: PageProps) {
       .catch(() => undefined)) ?? {};
   const posts = dataGeneral.categoria.blogs ?? [];
 
+  const items = [
+      { href: "/", label: "Inicio" },
+      { label: dataGeneral.categoria?.nombre, current: true },
+    ];
+
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_BASE || "https://blog.jisaadventure.com";
+
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Inicio", item: `${baseUrl}/` },
+        { "@type": "ListItem", position: 2, name: categoria, item: `${baseUrl}/${categoria}` },
+      ],
+    };
+
   return (
     <>
       {/* HERO full-bleed (bordes a bordes) */}
@@ -80,7 +97,15 @@ export default async function HomePage({ params }: PageProps) {
         />
       </section>
 
-      <BlogGrid posts={posts} filtro="0" categorias={dataGeneral.categoriaBlogs}/>
+      <section className="w-full max-w-7xl mx-auto mt-10 mb-3 px-4 sm:px-6 lg:px-8">
+        <Breadcrumbs items={items}  className="mb-4"/>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </section>
+
+      <BlogGrid posts={posts} filtro="1" categorias={dataGeneral.categoriaBlogs}/>
 
       <section className="">
         <Formulario id="formulario" />
