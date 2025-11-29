@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import AuthorProfile from "@/components/AuthorProfile";
 import { apiPost } from "@/lib/api";
+import JsonLdPerson from "@/utils/PersonSchema";
 
 const SITE_URL = process.env.NEXT_PUBLIC_WEB_URL ?? "https://jisaadventure.com";
 const AUTHOR_NAME = "Sadith Collatupa";
@@ -29,26 +30,38 @@ export default async function Page() {
         
   const posts = dataGeneral.blogs;
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: AUTHOR_NAME,
-    url: `${SITE_URL}/autor`,
-    affiliation: { "@type": "Organization", name: "Jisa Adventure" },
-    sameAs: [
-      "https://instagram.com/tuuser",
-      "https://www.facebook.com/tuuser",
-      "https://www.tiktok.com/@tuuser",
-    ],
-  };
-
-  return (
+    return (
     <>
-      {/* JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      <JsonLdPerson
+        id="https://blog.jisaadventures.com/sobre-sadith-collatupa"
+        name="Sadith Collatupa"
+        alternateName="Sadith C."
+        jobTitle="Redactora especializada en viajes por Perú"
+        description="Sadith Collatupa es redactora y creadora de contenido especializada en turismo y experiencias por Perú. Con más de 100 000 seguidores en Instagram, comparte guías, consejos e inspiración para viajeros que sueñan con descubrir cada rincón del país."
+        url="https://blog.jisaadventures.com"
+        image="/imagen/sadith-collatupa.jpg"
+        affiliation={{ name: "Jisa Adventures", url: "https://www.jisaadventures.com" }}
+        worksFor={{ name: "Jisa Adventures" }}
+        nationality="Perú"
+        gender="Female"
+        knowsAbout={[
+          "Turismo en Perú",
+          "Machu Picchu",
+          "Cusco",
+          "Ica",
+          "Lima",
+          "Arequipa",
+          "Puno",
+          "Viajes sostenibles",
+          "Aventura y cultura",
+        ]}
+        sameAs={[
+          "https://www.instagram.com/sadithcollatupa",
+          "https://blog.jisaadventures.com/sobre-sadith-collatupa",
+          "https://www.jisaadventures.com",
+        ]}
       />
+
       <section className="full-bleed md:mt-10">
         <AuthorProfile
             name={AUTHOR_NAME}

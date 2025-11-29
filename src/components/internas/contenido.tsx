@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import Script from "next/script";
 import ToursCard from "./tourscard";
 import Image from "next/image";
 import Link from "next/link";
@@ -28,7 +29,7 @@ type Seccion = {
   titulo: string;
   data: string;
   tipo: string;       // "texto" | "tours" | "galeria" ...
-  etiqueta: string;   // puedes dejarlo, pero ya no lo usamos para la TOC
+  etiqueta: string;   // ya no se usa para TOC
   tours: TourCard[];
   detalles: Detalles[];
 };
@@ -64,7 +65,7 @@ function slugify(text: string) {
   return text
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "") // quita acentos
+    .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 }
@@ -78,12 +79,11 @@ export default function Contenido({
   secciones = [],
   relacionados = [],
 }: BlogContentProps) {
-  // Preprocesar secciones: extraer headings y agregar ids al HTML
+  // 1) Preprocesa secciones: agrega ids a h2/h3/h4 y extrae headings
   const processedSections: ProcessedSection[] = useMemo(() => {
     if (typeof window === "undefined") return [];
 
     return (secciones ?? []).map((section, sectionIndex) => {
-      // solo nos interesa parsear HTML cuando tipo === "texto"
       if (section.tipo !== "texto" || !section.data) {
         return {
           ...section,
@@ -104,37 +104,54 @@ export default function Contenido({
         const text = el.textContent?.trim() || "";
         if (!text) return;
 
-        // si ya tiene id, lo respetamos; si no, lo generamos
         let id = el.id;
         if (!id) {
           id = `${slugify(text)}-${sectionIndex}-${headingIndex}`;
           el.id = id;
         }
 
-        headings.push({
-          id,
-          titulo: text,
-          level,
-        });
+        headings.push({ id, titulo: text, level });
       });
 
       return {
         ...section,
-        dataWithIds: doc.body.innerHTML, // HTML ya con ids en los headings
+        dataWithIds: doc.body.innerHTML,
         headings,
       };
     });
   }, [secciones]);
 
-  // aplanar todos los headings para la tabla de contenidos
+  // 2) Aplana todos los headings (TOC)
   const allHeadings: Heading[] = useMemo(
     () => processedSections.flatMap((s) => s.headings),
     [processedSections]
   );
 
+  // 3) Base absoluta de la página para URLs (#anclas)
+  const pageBaseHref = useMemo(() => {
+    if (typeof window === "undefined") return "";
+    const { origin, pathname } = window.location;
+    return origin + pathname.replace(/\/+$/, "");
+  }, []);
+
+  // 4) JSON-LD ItemList para la TOC
+  const tocLd = useMemo(() => {
+    if (!pageBaseHref || !allHeadings.length) return null;
+
+    return {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "itemListElement": allHeadings.map((h, i) => ({
+        "@type": "ListItem",
+        "position": i + 1,
+        "name": h.titulo,
+        "url": `${pageBaseHref}#${h.id}`,
+      })),
+    };
+  }, [pageBaseHref, allHeadings]);
+
   return (
     <>
-      {/* CONTENIDO */}
       <section className="mx-auto px-4 max-w-[1200px] text-left">
         {/* Intro */}
         <div
@@ -148,22 +165,33 @@ export default function Contenido({
             <h2 className="text-2xl font-semibold mb-4 text-gray-900">
               Tabla de contenidos
             </h2>
+
+            {/* JSON-LD: ItemList de la TOC */}
+            {tocLd && (
+              <Script
+                id="toc-itemlist-schema"
+                type="application/ld+json"
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(tocLd) }}
+              />
+            )}
+
             <ul className="bg-emerald-50 py-8 px-10 rounded-lg mb-12">
               {allHeadings.map((item) => {
                 const indent =
                   item.level === "h2" ? "pl-0" :
                   item.level === "h3" ? "pl-8" :
-                  /* h4 */             "pl-16";
+                  "pl-16";
 
                 const bullet =
                   item.level === "h2" ? "before:w-1.5 before:h-1.5" :
                   item.level === "h3" ? "before:w-1.5 before:h-1.5" :
-                  /* h4 */             "before:w-1 before:h-1";
+                  "before:w-1 before:h-1";
 
                 const textSize =
                   item.level === "h2" ? "text-[16px]" :
                   item.level === "h3" ? "text-[15px]" :
-                  /* h4 */             "text-[14px]";
+                  "text-[14px]";
 
                 return (
                   <li
@@ -195,28 +223,25 @@ export default function Contenido({
             {section.tipo === "texto" && (
               <div
                 className="cms-content text-gray-700 leading-relaxed mb-4 last:mb-0"
-                // 👇 aquí usamos el HTML ya modificado con ids en los <h2>/<h3>/<h4>
                 dangerouslySetInnerHTML={{ __html: section.dataWithIds }}
               />
             )}
 
             {section.tipo === "tours" && (
-              <>
-                 <aside
-                    aria-label="Tours recomendados relacionados con este artículo"
-                    className="mt-8 border-t pt-6"
-                  >
-                    <span className="text-2xl font-semibold text-gray-900 mb-4">
-                      Tours que te puedan interesar
-                    </span>
+              <aside
+                aria-label="Tours recomendados relacionados con este artículo"
+                className="mt-8 border-t pt-6"
+              >
+                <span className="text-2xl font-semibold text-gray-900 mb-4">
+                  Tours que te puedan interesar
+                </span>
 
-                    <div className="grid md:grid-cols-3 gap-8 mt-4">
-                      {(section.tours ?? []).map((tour, idx) => (
-                        <ToursCard key={idx} {...tour} />
-                      ))}
-                    </div>
-                  </aside>
-              </>
+                <div className="grid md:grid-cols-3 gap-8 mt-4">
+                  {(section.tours ?? []).map((tour, idx) => (
+                    <ToursCard key={idx} {...tour} />
+                  ))}
+                </div>
+              </aside>
             )}
 
             {section.tipo === "galeria" && (() => {
@@ -255,10 +280,7 @@ export default function Contenido({
 
         <p className="text-center italic text-gray-600 mt-10 mb-16">
           Por{" "}
-          <Link
-            href="/sobre-sadith-collatupa"
-            className="font-semibold"
-          >
+          <Link href="/sobre-sadith-collatupa" className="font-semibold">
             Sadith Collatupa
           </Link>
           <br />

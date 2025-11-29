@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const title = dataGeneral?.categoria.title ?? FALLBACK.title;
   const description = dataGeneral?.categoria.description ?? FALLBACK.description;
-  const canonical = dataGeneral?.categoria.canonical ?? FALLBACK.canonical;
+  const canonical = dataGeneral?.categoria.canonical ?? `https://blog.jisaadventure.com/${categoria}`;
   const ogImage = "/agencia-de-viaje-cusco-jisaadventure.webp";
   const keywords = dataGeneral?.categoria.keywords ?? "";
 

@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const title = dataGeneral?.blog.title ?? FALLBACK.title;
   const description = dataGeneral?.blog.description ?? FALLBACK.description;
-  const canonical = dataGeneral?.blog.canonical ?? FALLBACK.canonical;
+  const canonical = dataGeneral?.blog?.canonical ?? `https://blog.jisaadventure.com/${categoria}/${blog}`;
   const ogImage = "/agencia-de-viaje-cusco-jisaadventure.webp";
   const keywords = dataGeneral?.blog.keywords ?? "";
 
@@ -81,6 +81,8 @@ export default async function HomePage({ params }: PageProps) {
     ];
 
     const baseUrl = process.env.NEXT_PUBLIC_SITE_BASE || "https://blog.jisaadventure.com";
+    const canonical = dataGeneral?.blog?.canonical ?? `https://blog.jisaadventure.com/${categoria}/${blog}`;
+    const authorId = `${baseUrl}/sobre-sadith-collatupa`
 
     const jsonLd = {
       "@context": "https://schema.org",
@@ -92,6 +94,40 @@ export default async function HomePage({ params }: PageProps) {
       ],
     };
 
+    const imageObj = post?.imagen
+    ? {
+        "@type": "ImageObject",
+        "url": post.imagen,
+        ...(post?.altImage ? { "caption": post.altImage } : {}),
+        "width": 1600,
+        "height": 900
+      }
+    : undefined;
+
+    const blogPostingLd = {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": post?.titulo ?? blog,
+      "description": post?.resumen ?? "",
+      ...(imageObj ? { "image": imageObj } : {}),
+      "author": { "@id": authorId },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Jisa Adventure",
+        "logo": {
+          "@type": "ImageObject",
+          "url": `${baseUrl}/imagen/LogoJisa.webp`
+        }
+      },
+      "datePublished": post?.fechaIso ?? post?.fecha, // usa ISO 8601 si la tienes
+      "dateModified": post?.updated_at ?? post?.fechaActualizacion ?? post?.fecha,
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": canonical
+      },
+      "url": canonical,
+    };
+
   return (
     <>
         <article className="md:mt-35">
@@ -101,7 +137,11 @@ export default async function HomePage({ params }: PageProps) {
                 <script
                   type="application/ld+json"
                   dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-              />
+                />
+                <script
+                  type="application/ld+json"
+                  dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingLd) }}
+                />
             </section>
             <Hero
               title={post.titulo}
