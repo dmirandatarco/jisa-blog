@@ -152,7 +152,7 @@ export default function Contenido({
 
   return (
     <>
-      <section className="mx-auto px-4 max-w-[1200px] text-left">
+      <section className="mx-auto px-4  text-left">
         {/* Intro */}
         <div
           className="text-gray-700 leading-relaxed text-[17px] mb-8"
@@ -250,7 +250,8 @@ export default function Contenido({
 
               let gridCols = "grid-cols-1";
               if (total === 2) gridCols = "md:grid-cols-2";
-              else if (total >= 3) gridCols = "md:grid-cols-3";
+              if (total === 3) gridCols = "md:grid-cols-3";
+              else if (total >= 4) gridCols = "md:grid-cols-4";
 
               return (
                 <>
