@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Script from "next/script";
 import ToursCard from "./tourscard";
 import Image from "next/image";
@@ -29,7 +29,7 @@ type Seccion = {
   titulo: string;
   data: string;
   tipo: string;       // "texto" | "tours" | "galeria" ...
-  etiqueta: string;   // ya no se usa para TOC
+  etiqueta: string;
   tours: TourCard[];
   detalles: Detalles[];
 };
@@ -79,10 +79,25 @@ export default function Contenido({
   secciones = [],
   relacionados = [],
 }: BlogContentProps) {
-  // 1) Preprocesa secciones: agrega ids a h2/h3/h4 y extrae headings
-  const processedSections: ProcessedSection[] = useMemo(() => {
-    if (typeof window === "undefined") return [];
+  // 👇 flag para saber cuándo ya se hidrató el componente en el cliente
+  const [hydrated, setHydrated] = useState(false);
 
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  // 1) Preprocesa secciones: en SSR y primer render cliente NO usamos DOMParser
+  const processedSections: ProcessedSection[] = useMemo(() => {
+    // Antes de hidratar: misma salida en server y cliente
+    if (!hydrated) {
+      return (secciones ?? []).map((section) => ({
+        ...section,
+        dataWithIds: section.data || "",
+        headings: [],
+      }));
+    }
+
+    // Ya hidratado: ahora sí usamos DOMParser y agregamos ids
     return (secciones ?? []).map((section, sectionIndex) => {
       if (section.tipo !== "texto" || !section.data) {
         return {
@@ -119,7 +134,7 @@ export default function Contenido({
         headings,
       };
     });
-  }, [secciones]);
+  }, [secciones, hydrated]);
 
   // 2) Aplana todos los headings (TOC)
   const allHeadings: Heading[] = useMemo(
@@ -129,10 +144,10 @@ export default function Contenido({
 
   // 3) Base absoluta de la página para URLs (#anclas)
   const pageBaseHref = useMemo(() => {
-    if (typeof window === "undefined") return "";
+    if (!hydrated) return "";
     const { origin, pathname } = window.location;
     return origin + pathname.replace(/\/+$/, "");
-  }, []);
+  }, [hydrated]);
 
   // 4) JSON-LD ItemList para la TOC
   const tocLd = useMemo(() => {
@@ -152,21 +167,20 @@ export default function Contenido({
 
   return (
     <>
-      <section className="mx-auto px-4  text-left">
+      <section className="w-full max-w-7xl mx-auto mb-3 px-4 sm:px-6 lg:px-8">
         {/* Intro */}
         <div
           className="text-gray-700 leading-relaxed text-[17px] mb-8"
           dangerouslySetInnerHTML={{ __html: resumen }}
         />
 
-        {/* TABLA DE CONTENIDOS */}
-        {allHeadings.length > 0 && (
+        {/* TABLA DE CONTENIDOS – solo después de hidratar */}
+        {hydrated && allHeadings.length > 0 && (
           <>
             <h2 className="text-2xl font-semibold mb-4 text-gray-900">
               Tabla de contenidos
             </h2>
 
-            {/* JSON-LD: ItemList de la TOC */}
             {tocLd && (
               <Script
                 id="toc-itemlist-schema"
