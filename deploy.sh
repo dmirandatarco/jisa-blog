@@ -27,8 +27,9 @@ if [[ ! -f ".env.production" ]]; then
 fi
 
 echo "==> (D) Instalar dependencias exactas con pnpm"
-# Usamos --frozen-lockfile para asegurar la integridad como 'npm ci'
-pnpm install --frozen-lockfile --prod
+# CORRECCIÓN: Usamos --prod para instalar solo dependencias de producción 
+# y evitamos --frozen-lockfile si el pnpm-lock.yaml no existe.
+pnpm install --prod 
 
 echo "==> (E) Build de producción con .env.production"
 NODE_ENV=production pnpm run build
