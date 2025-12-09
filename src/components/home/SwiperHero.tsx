@@ -65,7 +65,7 @@ export default function SwiperHero({
 
   // 5) Omite el primer slide (LCP) y usa referencias estables
   const slides = useMemo<Slide[]>(() => {
-    if (!Array.isArray(detalles) || detalles.length <= 1) return [];
+    if (!Array.isArray(detalles) || detalles?.length <= 1) return [];
     return detalles.slice(1);
   }, [detalles]);
 

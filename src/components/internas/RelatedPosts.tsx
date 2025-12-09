@@ -19,10 +19,10 @@ export default function RelatedPosts({
   posts = [],
   tituloSeccion = "Post relacionados",
 }: RelatedPostsProps) {
-  if (!posts.length) return null;
+  if (!posts?.length) return null;
 
   const [startIndex, setStartIndex] = useState(0);
-  const total = posts.length;
+  const total = posts?.length;
 
   // si solo hay 1 o 2, mostramos esos y listo
   const showSlider = total > 2;

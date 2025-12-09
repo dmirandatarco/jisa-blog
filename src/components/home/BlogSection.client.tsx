@@ -22,7 +22,7 @@ export default function BlogSection({
 }: { id?: string; data?: Blog[] }) {
   const { t } = useTranslation();
 
-  if (!Array.isArray(data) || data.length === 0) return null;
+  if (!Array.isArray(data) || data?.length === 0) return null;
 
   return (
     <section id={id} className="w-full max-w-7xl mx-auto md:my-12 my-12 pb-1 mb-2">

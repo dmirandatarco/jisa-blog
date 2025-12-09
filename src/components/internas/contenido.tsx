@@ -151,7 +151,7 @@ export default function Contenido({
 
   // 4) JSON-LD ItemList para la TOC
   const tocLd = useMemo(() => {
-    if (!pageBaseHref || !allHeadings.length) return null;
+    if (!pageBaseHref || !allHeadings?.length) return null;
 
     return {
       "@context": "https://schema.org",
@@ -175,7 +175,7 @@ export default function Contenido({
         />
 
         {/* TABLA DE CONTENIDOS – solo después de hidratar */}
-        {hydrated && allHeadings.length > 0 && (
+        {hydrated && allHeadings?.length > 0 && (
           <>
             <h2 className="text-2xl font-semibold mb-4 text-gray-900">
               Tabla de contenidos
@@ -260,7 +260,7 @@ export default function Contenido({
 
             {section.tipo === "galeria" && (() => {
               const detalles = section.detalles ?? [];
-              const total = detalles.length;
+              const total = detalles?.length;
 
               let gridCols = "grid-cols-1";
               if (total === 2) gridCols = "md:grid-cols-2";

@@ -281,7 +281,7 @@ export default function MenuHeader({ menu = [] }: MenuHeaderProps) {
     >
       <ul className="flex md:flex-row flex-col">
         {menu.map((item: any, index: number) => {
-          const hasSub = Array.isArray(item?.toursOriginal) && item.toursOriginal.length > 0;
+          const hasSub = Array.isArray(item?.toursOriginal) && item.toursOriginal?.length > 0;
           const key =
             String(
               item?.nombre ?? "item"

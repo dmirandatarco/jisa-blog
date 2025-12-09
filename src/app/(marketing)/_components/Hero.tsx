@@ -53,7 +53,7 @@ export default function Hero({
           )}
 
           {/* 2) SLIDER dinámico (cliente) que toma el control después */}
-          {detalles.length > 1 && (
+          {detalles?.length > 1 && (
             <div
               className="absolute inset-0 z-10"
               // Hint para el navegador: esto puede tardar; no bloquees pintura

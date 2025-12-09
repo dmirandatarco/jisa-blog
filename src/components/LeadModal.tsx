@@ -82,8 +82,8 @@ export default function LeadModal() {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key !== "Tab") return;
       const nodes = focusable();
-      if (nodes.length === 0) return;
-      const first = nodes[0], last = nodes[nodes.length - 1];
+      if (nodes?.length === 0) return;
+      const first = nodes[0], last = nodes[nodes?.length - 1];
       const active = document.activeElement as HTMLElement;
       if (e.shiftKey && active === first) { e.preventDefault(); last.focus(); }
       else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }

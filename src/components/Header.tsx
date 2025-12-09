@@ -94,10 +94,10 @@ export default function Header({ dataGeneral }: HeaderProps) {
                 aria-label="Ver carrito"
               >
                 <CartIcon size={20} />
-                {cartItems.length > 0 && (
+                {cartItems?.length > 0 && (
                   <span className="absolute -top-1 -right-1 flex items-center justify-center
                                    w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
-                    {cartItems.length}
+                    {cartItems?.length}
                   </span>
                 )}
               </Link>

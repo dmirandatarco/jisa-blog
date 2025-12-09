@@ -14,7 +14,7 @@ git stash push -m "deploy temp" || true
 POST_TOP="$(git rev-parse -q --verify refs/stash || echo "")"
 STASHED=0
 if [ "$PRE_TOP" != "$POST_TOP" ] && [ -n "$POST_TOP" ]; then
-  STASHED=1
+	STASHED=1
 fi
 
 echo "==> (B) Traer cambios"
@@ -23,14 +23,15 @@ git pull --rebase
 
 echo "==> (C) Verificar .env.production"
 if [[ ! -f ".env.production" ]]; then
-  echo "ERROR: Falta .env.production"; exit 1
+	echo "ERROR: Falta .env.production"; exit 1
 fi
 
-echo "==> (D) Instalar dependencias exactas"
-npm ci --include=dev
+echo "==> (D) Instalar dependencias exactas con pnpm"
+# Usamos --frozen-lockfile para asegurar la integridad como 'npm ci'
+pnpm install --frozen-lockfile --prod
 
 echo "==> (E) Build de producción con .env.production"
-NODE_ENV=production npm run build
+NODE_ENV=production pnpm run build
 
 echo "==> (F) Empaquetado standalone"
 rm -rf "$RUNTIME_DIR"
@@ -47,16 +48,17 @@ echo "$GIT_REV" > "$RUNTIME_DIR/DEPLOY_GIT_REV"
 echo "==> (G) Iniciar/Actualizar PM2"
 # Si no existe el proceso, lo crea; si existe, reinicia con env actualizado.
 if ! pm2 describe "$PM2_NAME" >/dev/null 2>&1; then
-  echo "-> No existe $PM2_NAME: creando"
-  cd "$RUNTIME_DIR"
-  PORT=3001 NODE_ENV=production pm2 start ./server.js --name "$PM2_NAME"
+	echo "-> No existe $PM2_NAME: creando"
+	cd "$RUNTIME_DIR"
+	PORT=3001 NODE_ENV=production pm2 start ./server.js --name "$PM2_NAME"
 else
-  echo "-> Reiniciando $PM2_NAME"
-  pm2 restart "$PM2_NAME" --update-env
+	echo "-> Reiniciando $PM2_NAME"
+	pm2 restart "$PM2_NAME" --update-env
 fi
 pm2 save
 
 echo "==> (H) Pruebas rápidas"
+
 pm2 logs "$PM2_NAME" --lines 5 --nostream || true
 echo "==> Health check /"
 curl -Is "$SITE_URL/" | head -n 1 || true
@@ -65,8 +67,8 @@ curl -Is "$SITE_URL/sitemap.xml" | head -n 1 || true
 
 # (I) Reaplica el stash si se creó
 if [ "$STASHED" -eq 1 ]; then
-  echo "==> (I) Restaurando cambios locales (git stash pop)"
-  git stash pop || true
+	echo "==> (I) Restaurando cambios locales (git stash pop)"
+	git stash pop || true
 fi
 
 echo "==> Listo. Versión: $GIT_REV"

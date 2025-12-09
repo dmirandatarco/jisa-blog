@@ -16,7 +16,7 @@ export default function TourDetails({
   brochure?: string;
   imagenSecundaria?: string;
 }) {
-  const ubic = Array.isArray(ubicaciones) && ubicaciones.length > 0 ? ubicaciones[0] : null;
+  const ubic = Array.isArray(ubicaciones) && ubicaciones?.length > 0 ? ubicaciones[0] : null;
   const ubicHref = ubic?.slug ? `/${ubic.slug}` : "/";
   const tourHref = tour?.canonical ?? (tour?.slug ? `/tours/${tour.slug}` : "/tours");
 

@@ -45,10 +45,10 @@ export default function FloatingContact() {
 
   const { originTag, isDetail } = useMemo(() => {
     const parts = pathname.split("/").filter(Boolean);
-    if (parts[0] === "tours" && parts.length >= 2) {
+    if (parts[0] === "tours" && parts?.length >= 2) {
       return { originTag: toTitle(parts[1]), isDetail: true };
     }
-    if (parts[0] === "paquetes" && parts.length >= 2) {
+    if (parts[0] === "paquetes" && parts?.length >= 2) {
       return { originTag: toTitle(parts[1]), isDetail: true };
     }
     return { originTag: "", isDetail: false };
