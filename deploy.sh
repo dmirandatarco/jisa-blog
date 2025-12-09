@@ -26,12 +26,13 @@ if [[ ! -f ".env.production" ]]; then
 	echo "ERROR: Falta .env.production"; exit 1
 fi
 
-echo "==> (D) Instalar dependencias exactas con pnpm"
-# CORRECCIÓN: Usamos --prod para instalar solo dependencias de producción 
-# y evitamos --frozen-lockfile si el pnpm-lock.yaml no existe.
-pnpm install --prod 
+echo "==> (D) Instalar dependencias con pnpm (Incluye DevDependencies para el build)"
+# Usamos 'pnpm install' sin flags de producción para garantizar que 
+# @next/bundle-analyzer esté disponible para el build.
+pnpm install
 
 echo "==> (E) Build de producción con .env.production"
+# El build tendrá éxito porque todas las dependencias están instaladas.
 NODE_ENV=production pnpm run build
 
 echo "==> (F) Empaquetado standalone"
