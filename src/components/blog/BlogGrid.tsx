@@ -43,11 +43,11 @@ export default function BlogGrid({
   let i = 0;
   let rowIndex = 0;
 
-  while (i < posts.length) {
-    const slots = ROW_PATTERN[rowIndex % ROW_PATTERN.length];
+  while (i < posts?.length) {
+    const slots = ROW_PATTERN[rowIndex % ROW_PATTERN?.length];
     const current: Array<{ slot: Slot; data: Item }> = [];
     for (const slot of slots) {
-      if (i >= posts.length) break;
+      if (i >= posts?.length) break;
       current.push({ slot, data: posts[i++] });
     }
     rows.push(current);
@@ -118,7 +118,7 @@ export default function BlogGrid({
         )}
 
         {/* GRID principal */}
-        <div className={`w-full ${String(filtro) === "1" ? "md:w-3/4" : ""} flex flex-col gap-6`} data-count={posts.length}>
+        <div className={`w-full ${String(filtro) === "1" ? "md:w-3/4" : ""} flex flex-col gap-6`} data-count={posts?.length}>
           {rows.map((row, rIdx) => (
             <div key={rIdx} className="grid grid-cols-12 gap-5">
               {row.map(({ slot, data }, cIdx) => (
