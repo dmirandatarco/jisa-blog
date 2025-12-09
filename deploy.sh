@@ -8,7 +8,7 @@ SITE_URL="https://blog.jisaadventure.com"
 cd "$APP_DIR"
 
 echo "==> (A) Guardar cambios locales (solo lo trackeado)"
-# Detecta si se creó un nuevo stash (sin incluir untracked)
+# ... (rest of the stash logic remains the same)
 PRE_TOP="$(git rev-parse -q --verify refs/stash || echo "")"
 git stash push -m "deploy temp" || true
 POST_TOP="$(git rev-parse -q --verify refs/stash || echo "")"
@@ -26,13 +26,14 @@ if [[ ! -f ".env.production" ]]; then
 	echo "ERROR: Falta .env.production"; exit 1
 fi
 
-echo "==> (D) Instalar dependencias con pnpm (Incluye DevDependencies para el build)"
-# Usamos 'pnpm install' sin flags de producción para garantizar que 
-# @next/bundle-analyzer esté disponible para el build.
+echo "==> (D) Limpiar e instalar dependencias COMPLETAS con pnpm"
+# Eliminamos node_modules para garantizar una instalación limpia
+rm -rf node_modules
+# Forzamos la instalación completa (incluyendo devDependencies) para el build
 pnpm install
 
 echo "==> (E) Build de producción con .env.production"
-# El build tendrá éxito porque todas las dependencias están instaladas.
+# El build ahora encontrará @next/bundle-analyzer
 NODE_ENV=production pnpm run build
 
 echo "==> (F) Empaquetado standalone"
