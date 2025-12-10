@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[737],{7737:(e,u,s)=>{s.r(u),s.d(u,{default:()=>n});var t=s(2115),a=s(63);function n(){var e=(0,a.usePathname)();return(0,t.useEffect)(()=>{window.scrollTo({top:0,behavior:"smooth"})},[e]),null}}}]);
