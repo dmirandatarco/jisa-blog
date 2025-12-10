@@ -1,7 +1,7 @@
 set -euo pipefail
 
 APP_DIR="/var/www/jisa-blog"
-RUNTIME_DIR="$APP_DIR/.runtime-blog"
+RUNTIME_DIR="$APP_DIR/runtime"
 PM2_NAME="blog-jisa"
 SITE_URL="https://blog.jisaadventure.com"
 
