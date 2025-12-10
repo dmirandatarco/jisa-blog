@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Formulario from "@/components/Formulario";
 import BlogHero from "@/components/blog/BlogHero";
 import BlogGrid from "@/components/blog/BlogGrid";
@@ -20,25 +21,34 @@ const FALLBACK = {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { categoria } = params;
 
-  // MISMO PATRÓN que usas: .then(r => r.data) + catch
   const dataGeneral =
     (await apiPost<any>("/categoria-blog", { idiomaId: 1, slug: categoria })
       .then((r) => r.data)
       .catch(() => undefined)) ?? {};
 
-  const title = dataGeneral?.categoria.title ?? FALLBACK.title;
-  const description = dataGeneral?.categoria.description ?? FALLBACK.description;
-  const canonical = dataGeneral?.categoria.canonical ?? `https://blog.jisaadventure.com/${categoria}`;
+  // Evitamos reventar cuando categoria no existe
+  const categoriaData = dataGeneral?.categoria ?? null;
+
+  // Si no hay categoría, usamos fallback simple (o podrías devolver metadata de 404)
+  if (!categoriaData) {
+    return {
+      title: FALLBACK.title,
+      description: FALLBACK.description,
+      alternates: { canonical: `https://blog.jisaadventure.com/${categoria}` },
+    };
+  }
+
+  const title = categoriaData.title ?? FALLBACK.title;
+  const description = categoriaData.description ?? FALLBACK.description;
+  const canonical = categoriaData.canonical ?? `https://blog.jisaadventure.com/${categoria}`;
   const ogImage = "/agencia-de-viaje-cusco-jisaadventure.webp";
-  const keywords = dataGeneral?.categoria.keywords ?? "";
+  const keywords = categoriaData.keywords ?? "";
 
   return {
     title,
     description,
     keywords,
-    alternates: { canonical },
-    // Mantengo tu string para robots (misma estructura):
-    robots: (dataGeneral?.categoria.robots as string) ?? "index, follow",
+    robots: (categoriaData.robots as string) ?? "index, follow",
     openGraph: {
       title: dataGeneral?.ogTitle ?? title,
       description: dataGeneral?.ogDescription ?? description,
@@ -62,52 +72,63 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function HomePage({ params }: PageProps) {
   const { categoria } = params;
 
-  // MISMO PATRÓN que usas: .then(r => r.data) + catch
   const dataGeneral =
     (await apiPost<any>("/categoria-blog", { idiomaId: 1, slug: categoria })
       .then((r) => r.data)
       .catch(() => undefined)) ?? {};
-  const posts = dataGeneral.categoria.blogs ?? [];
+
+  const categoriaData = dataGeneral?.categoria ?? null;
+
+  // Si no hay categoría, devolvemos 404 bonito
+  if (!categoriaData) {
+    notFound();
+  }
+
+  const posts = categoriaData.blogs ?? [];
 
   const items = [
-      { href: "/", label: "Inicio" },
-      { label: dataGeneral.categoria?.nombre, current: true },
-    ];
+    { href: "/", label: "Inicio" },
+    { label: categoriaData.nombre ?? "Blog", current: true },
+  ];
 
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_BASE || "https://blog.jisaadventure.com";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_BASE || "https://blog.jisaadventure.com";
 
-    const jsonLd = {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Inicio", item: `${baseUrl}/` },
-        { "@type": "ListItem", position: 2, name: categoria, item: `${baseUrl}/${categoria}` },
-      ],
-    };
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: `${baseUrl}/` },
+      { "@type": "ListItem", position: 2, name: categoriaData.nombre ?? categoria, item: `${baseUrl}/${categoria}` },
+    ],
+  };
 
   return (
     <>
-      {/* HERO full-bleed (bordes a bordes) */}
+      {/* HERO */}
       <section className="full-bleed">
         <BlogHero
-          title={dataGeneral?.categoria.nombre ?? "Blog"}
-          subtitle={dataGeneral?.categoria.nombre ?? ""}
-          imageUrl={dataGeneral?.categoria.imagen ?? "/agencia-de-viaje-cusco-jisaadventure.webp"}
-          altImageUrl={dataGeneral?.categoria.altImage ?? dataGeneral?.categoria.nombre ?? "Banner"}
+          title={categoriaData.nombre ?? "Blog"}
+          subtitle={categoriaData.nombre ?? ""}
+          imageUrl={categoriaData.imagen ?? "/agencia-de-viaje-cusco-jisaadventure.webp"}
+          altImageUrl={categoriaData.altImage ?? categoriaData.nombre ?? "Banner"}
         />
       </section>
 
       <section className="w-full max-w-7xl mx-auto mt-10 mb-3 px-4 sm:px-6 lg:px-8">
-        <Breadcrumbs items={items}  className="mb-4"/>
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        <Breadcrumbs items={items} className="mb-4" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </section>
 
-      <BlogGrid posts={posts} filtro="1" categorias={dataGeneral.categoriaBlogs}/>
+      <BlogGrid
+        posts={posts}
+        filtro="1"
+        categorias={dataGeneral.categoriaBlogs ?? []}
+      />
 
-      <section className="">
+      <section>
         <Formulario id="formulario" />
       </section>
     </>
