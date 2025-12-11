@@ -3,7 +3,7 @@ import AuthorProfile from "@/components/AuthorProfile";
 import { apiPost } from "@/lib/api";
 import JsonLdPerson from "@/utils/PersonSchema";
 
-const SITE_URL = process.env.NEXT_PUBLIC_WEB_URL ?? "https://jisaadventure.com";
+const SITE_URL = process.env.NEXT_PUBLIC_WEB_URL ?? "https://blog.jisaadventure.com";
 const AUTHOR_NAME = "Sadith Collatupa";
 
 export const metadata: Metadata = {

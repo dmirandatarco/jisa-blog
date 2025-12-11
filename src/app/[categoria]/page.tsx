@@ -10,8 +10,8 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 type PageProps = { params: { categoria: string } };
 
 const FALLBACK = {
-  siteName: "Jisa Adventure",
-  canonical: "https://jisaadventure.com/",
+  siteName: "Blog Jisa Adventure",
+  canonical: "https://blog.jisaadventure.com/",
   title: "Jisa Adventure - Tours en Cusco y Perú",
   description: "Agencia de viajes en Cusco. Tours, paquetes y experiencias auténticas en Perú.",
   locale: "es_PE",
