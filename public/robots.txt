@@ -4,4 +4,4 @@ Allow: /
 Disallow: /404
 Disallow: /404.html
 
-Sitemap: https://jisaadventure.com/sitemap.xml
+Sitemap: https://blog.jisaadventure.com/sitemap.xml
